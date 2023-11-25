@@ -1,0 +1,16 @@
+POST METHOS: http://localhost:8080/authenticate
+
+{
+  "username": "user",
+  "password": "user"
+}
+
+RESPONSE:
+
+{
+  "token": "your_generated_jwt_token"
+}
+
+USE ON HEADER:
+
+Authorization: Bearer your_generated_jwt_token

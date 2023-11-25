@@ -1,5 +1,6 @@
 package br.com.shiol.crud.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.shiol.crud.model.Carro;
 import br.com.shiol.crud.model.Usuario;
 import br.com.shiol.crud.repository.UsuarioRepository;
 
@@ -26,8 +28,24 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public Usuario create(@RequestBody Usuario contact) {
-        return repository.save(contact);
+    public Usuario create(@RequestBody Usuario usuario) {
+
+        List<Carro> carros = new ArrayList<>();
+
+        for (Carro car : usuario.getCars()) {
+            Carro carro = new Carro();
+            carro.setColor(car.getColor());
+            carro.setLicensePlate(car.getLicensePlate());
+            carro.setModel(car.getModel());
+            carro.setYearManufacture(car.getYearManufacture());
+            carro.setUser(usuario);
+            carros.add(carro);
+        }
+
+        usuario.setCars(carros);
+
+        Usuario user = repository.save(usuario);
+        return user;
     }
 
     @GetMapping
@@ -44,16 +62,16 @@ public class UsuarioController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<Usuario> update(@PathVariable("id") long id,
-            @RequestBody Usuario car) {
+            @RequestBody Usuario usuario) {
         return repository.findById(id)
                 .map(record -> {
-                    record.setBirthday(car.getBirthday());
-                    record.setEmail(car.getEmail());
-                    record.setFirstName(car.getFirstName());
-                    record.setLastName(car.getLastName());
-                    record.setLogin(car.getLogin());
-                    record.setPassword(car.getPassword());
-                    record.setPhone(car.getPhone());
+                    record.setBirthday(usuario.getBirthday());
+                    record.setEmail(usuario.getEmail());
+                    record.setFirstName(usuario.getFirstName());
+                    record.setLastName(usuario.getLastName());
+                    record.setLogin(usuario.getLogin());
+                    record.setPassword(usuario.getPassword());
+                    record.setPhone(usuario.getPhone());
                     Usuario updated = repository.save(record);
                     return ResponseEntity.ok().body(updated);
                 }).orElse(ResponseEntity.notFound().build());
