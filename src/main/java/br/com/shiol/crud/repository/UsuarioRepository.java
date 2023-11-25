@@ -7,4 +7,7 @@ import br.com.shiol.crud.model.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+
+    boolean existsByLogin(String login);
+    boolean existsByEmail(String email);
 }

@@ -3,6 +3,8 @@ package br.com.shiol.crud.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.shiol.crud.model.Carro;
 import br.com.shiol.crud.model.Usuario;
 import br.com.shiol.crud.repository.UsuarioRepository;
+import br.com.shiol.crud.service.UtilService;
 
 @RestController
 @RequestMapping({ "/users" })
@@ -44,6 +47,19 @@ public class UsuarioController {
 
         usuario.setCars(carros);
 
+        if (repository.existsByEmail(usuario.getEmail())) {
+            throw new RuntimeException("Email already exists");
+        }
+        if (repository.existsByLogin(usuario.getLogin())) {
+            throw new RuntimeException("Login already exists");
+        }
+        if (UtilService.isValidEmail(usuario.getEmail())) {
+            throw new RuntimeException("Email already exists");
+        }
+        if (usuario.getFirstName().isEmpty() || usuario.getLastName().isEmpty()) {
+            throw new RuntimeException("Missing fields");
+        }
+
         Usuario user = repository.save(usuario);
         return user;
     }
@@ -57,7 +73,7 @@ public class UsuarioController {
     public ResponseEntity<Usuario> findById(@PathVariable long id) {
         return repository.findById(id)
                 .map(record -> ResponseEntity.ok().body(record))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new EntityNotFoundException());
     }
 
     @PutMapping(value = "/{id}")

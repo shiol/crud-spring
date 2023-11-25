@@ -1,4 +1,4 @@
-POST METHOS: http://localhost:8080/authenticate
+POST METHOS: http://localhost:8080/signin
 
 {
   "username": "user",
@@ -8,7 +8,7 @@ POST METHOS: http://localhost:8080/authenticate
 RESPONSE:
 
 {
-  "token": "your_generated_jwt_token"
+  "jwtToken": "your_generated_jwt_token"
 }
 
 USE ON HEADER:
