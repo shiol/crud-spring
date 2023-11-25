@@ -33,6 +33,6 @@ public class Usuario {
    private String password;
    private String phone;
 
-   @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+   @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
    private List<Carro> cars;
 }

@@ -81,6 +81,8 @@ public class UsuarioController {
     public ResponseEntity<?> delete(@PathVariable long id) {
         return repository.findById(id)
                 .map(record -> {
+                    record.getCars().forEach(x -> x.setUser(null));
+                    record.setCars(null);
                     repository.deleteById(id);
                     return ResponseEntity.ok().build();
                 }).orElse(ResponseEntity.notFound().build());
