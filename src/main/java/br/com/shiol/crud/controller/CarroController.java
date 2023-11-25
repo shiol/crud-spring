@@ -50,7 +50,7 @@ public class CarroController {
                     record.setColor(car.getColor());
                     record.setLicensePlate(car.getLicensePlate());
                     record.setModel(car.getModel());
-                    record.setYear(car.getYear());
+                    record.setYearManufacture(car.getYearManufacture());
                     Carro updated = repository.save(record);
                     return ResponseEntity.ok().body(updated);
                 }).orElse(ResponseEntity.notFound().build());

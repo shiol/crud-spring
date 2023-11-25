@@ -19,7 +19,7 @@ public class Carro {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
 
-   private int year;
+   private int yearManufacture;
    private String licensePlate;
    private String model;
    private String color;
