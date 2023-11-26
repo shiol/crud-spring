@@ -16,7 +16,7 @@ import br.com.shiol.crud.model.Customer;
 import br.com.shiol.crud.repository.CustomerRepository;
 
 @RestController
-@RequestMapping({ "/customers" })
+@RequestMapping({ "/api/customers" })
 public class CustomerController {
 
     private CustomerRepository repository;

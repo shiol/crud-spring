@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.shiol.crud.model.Carro;
+import br.com.shiol.crud.model.Car;
 import br.com.shiol.crud.model.Usuario;
 import br.com.shiol.crud.repository.UsuarioRepository;
 import br.com.shiol.crud.service.UtilService;
 
 @RestController
-@RequestMapping({ "/users" })
+@RequestMapping({ "/api/users" })
 public class UsuarioController {
 
     private UsuarioRepository repository;
@@ -31,12 +31,12 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public Usuario create(@RequestBody Usuario usuario) {
+    public Usuario create(@RequestBody Usuario usuario) throws NoSuchFieldException, SecurityException {
 
-        List<Carro> carros = new ArrayList<>();
+        List<Car> carros = new ArrayList<>();
 
-        for (Carro car : usuario.getCars()) {
-            Carro carro = new Carro();
+        for (Car car : usuario.getCars()) {
+            Car carro = new Car();
             carro.setColor(car.getColor());
             carro.setLicensePlate(car.getLicensePlate());
             carro.setModel(car.getModel());
@@ -53,11 +53,14 @@ public class UsuarioController {
         if (repository.existsByLogin(usuario.getLogin())) {
             throw new RuntimeException("Login already exists");
         }
-        if (UtilService.isValidEmail(usuario.getEmail())) {
-            throw new RuntimeException("Email already exists");
+        if (!UtilService.isValidEmail(usuario.getEmail())) {
+            throw new RuntimeException("Email is invalid");
         }
-        if (usuario.getFirstName().isEmpty() || usuario.getLastName().isEmpty()) {
-            throw new RuntimeException("Missing fields");
+        if (usuario.getFirstName().isEmpty()) {
+            throw new RuntimeException("Missing fields: firstName");
+        }
+        if (usuario.getLastName().isEmpty()) {
+            throw new RuntimeException("Missing fields: lastName");
         }
 
         Usuario user = repository.save(usuario);

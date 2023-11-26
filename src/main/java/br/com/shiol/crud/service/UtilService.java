@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 public class UtilService {
     public static boolean isValidEmail(String email) {
-        // Simple email validation using a regular expression
         if (email == null) {
             return false;
         }
