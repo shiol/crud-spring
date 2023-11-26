@@ -1,16 +1,72 @@
-POST METHOS: http://localhost:8080/signin
+USE MAVEN:
+
+mvn spring-boot:run
+
+POST METHOD: http://localhost:8080/api/signin
 
 {
-  "username": "user",
-  "password": "user"
+  "username": "admin",
+  "password": "admin"
 }
 
 RESPONSE:
 
 {
-  "jwtToken": "your_generated_jwt_token"
+  "token": "your_generated_jwt_token"
 }
 
 USE ON HEADER:
 
 Authorization: Bearer your_generated_jwt_token
+
+ROUTES THAT DO NOT REQUIRE AUTHENTICATION:
+
+/api/signin
+/api/users
+/api/users/{id}
+
+ROUTES THAT NEED AUTHENTICATION:
+
+/api/me
+/api/cars
+/api/cars/{id}
+
+EXEMPLE OF USER:
+{
+	"firstName": "Hello",
+	"lastName": "World",
+	"email": "hello@world.com",
+	"birthday": "1990-05-01",
+	"login": "hello.world",
+	"password": "h3ll0",
+	"phone": "988888888",
+	"cars": [
+		{
+			"year": 2018,
+			"licensePlate": "PDV-0625",
+			"model": "Audi",
+			"color": "White"
+		},
+		{
+			"year": 2020,
+			"licensePlate": "PDV-0625",
+			"model": "BMW",
+			"color": "White"
+		}
+	]
+}
+
+EXEMPLE OF CAR:
+{
+	"year": 2018,
+	"licensePlate": "PDV-0625",
+	"model": "Audi",
+	"color": "White"
+}
+
+EXEMPLE OF CUSTOMER:
+{
+	"name": "Pedro",
+	"email": "pedro@email.com",
+	"phone": "(111) 111-1111"
+}
